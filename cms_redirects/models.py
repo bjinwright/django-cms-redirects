@@ -10,6 +10,24 @@ RESPONSE_CODES = (
     ('302', '302'),
 )
 
+class PageField(models.ForeignKey):
+    default_form_class = PageSelectFormField
+    default_model_class = Page
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': self.default_form_class,
+        }
+        defaults.update(kwargs)
+        return super(PageField, self).formfield(**defaults)
+
+    def south_field_triple(self):
+        "Returns a suitable description of this field for South."
+        from south.modelsinspector import introspector
+        field_class = "django.db.models.fields.related.ForeignKey"
+        args, kwargs = introspector(self)
+        return (field_class, args, kwargs)
+        
 class CMSRedirect(models.Model):
     page = PageField(verbose_name=_("page"), blank=True, null=True, help_text=_("A link to a page has priority over a text link."))
     site = models.ForeignKey(Site)
