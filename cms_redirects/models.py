@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 
-from cms.forms.fields import PageSelectFormField
-from cms.models.pagemodel import Page
+from cms.forms import PageSelectFormField
+from cms.models import Page
 
 
 RESPONSE_CODES = (
