@@ -2,8 +2,7 @@ from django.db import models
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 
-from cms.models.fields import PageField
-
+from cms.models import Page
 
 RESPONSE_CODES = (
     ('301', '301'),
@@ -13,7 +12,7 @@ RESPONSE_CODES = (
 
         
 class CMSRedirect(models.Model):
-    page = PageField(verbose_name=_("page"), blank=True, null=True, help_text=_("A link to a page has priority over a text link."))
+    page = models.ForeignKey(Page,verbose_name=_("page"), blank=True, null=True, help_text=_("A link to a page has priority over a text link."))
     site = models.ForeignKey(Site)
     old_path = models.CharField(_('redirect from'), max_length=200, db_index=True,
         help_text=_("This should be an absolute path, excluding the domain name. Example: '/events/search/'."))
